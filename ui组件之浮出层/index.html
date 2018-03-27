@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #main {
+            width: 100%;
+            height: 100%;
+            background-color: yellow;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #pop {
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+
+        .bkg {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(52, 52, 52, 0.5);
+        }
+
+        #layer {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 200px;
+            background-color: rgba(52, 52, 52, 1);
+
+
+        }
+
+        #layerHeader {
+            height: 11%;
+            background: cadetblue;
+        }
+
+        #layerMain {
+        }
+
+        button {
+            position: absolute;
+            color: white;
+            background-color: black;
+
+        }
+
+        #layerSure {
+            bottom: 2px;
+            right: 60px;
+        }
+
+        #layerCancel {
+            bottom: 2px;
+            right: 10px;
+        }
+
+        .content {
+            width: 100%;
+            height: 800px;
+            background-color: #00CCCC;
+        }
+
+    </style>
+
+</head>
+<body>
+<div id="main">
+    <button id="pop">弹出浮出层</button>
+</div>
+<div class="bkg">
+    <div id="layer" draggable="true">
+        <div id="layerHeader">这是浮出层头</div>
+        <div id="layerMain">
+            <span>这是浮出层的主要内容</span>
+            <button id="layerSure">确定</button>
+            <button id="layerCancel">取消</button>
+        </div>
+    </div>
+</div>
+<div class="content"></div>
+<script>
+    //简化获取id方法
+    function id(name) {
+        return document.getElementById(name);
+    };
+
+    // 添加事件绑定函数
+    function addEventHandler(ele, event, hanlder) {
+        if (ele.addEventListener) {
+            ele.addEventListener(event, hanlder, false);
+        } else if (ele.attachEvent) {
+            ele.attachEvent("on" + event, hanlder);
+        } else {
+            ele["on" + event] = hanlder;
+        }
+    };
+
+    //页面显示与消失函数
+    function showLayer() {
+        event.stopPropagation();
+        var layer = document.getElementsByClassName('bkg')[0];
+        if (layer.style.display == 'block') {
+            layer.style.display = 'none';
+        } else {
+            layer.style.display = 'block'
+        }
+    }
+
+    (function () {
+        var lay = id("layer");
+        var sure = id('layerSure');
+        var cancel = id('layerCancel');
+        var pop = id('pop');
+        var bkg = document.getElementsByClassName('bkg')[0];
+        var layHeader = id('layerHeader');
+
+        addEventHandler(pop, 'click', showLayer);
+        addEventHandler(sure, 'click', showLayer);
+        addEventHandler(cancel, 'click', showLayer);
+        addEventHandler(lay, 'click', function () {
+            event.stopPropagation();
+        });
+        addEventHandler(bkg, 'click', showLayer);
+    })();
+</script>
+</body>
+</html>
